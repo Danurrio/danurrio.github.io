@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniel Barrio — Analista de Ciberseguridad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #181818;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #f0f0f0;
+      --muted: #888;
+      --muted2: #555;
+      --accent: #00c2a8;
+      --accent2: #0097a7;
+      --accent-dim: rgba(0,194,168,0.10);
+      --accent-dim2: rgba(0,194,168,0.05);
+      --red: #ff4d4d;
+      --yellow: #f5c542;
+      --blue: #5b8def;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      font-size: 13px;
+      padding: 7px 16px;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
+      color: var(--accent);
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent-dim); }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 5%; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding-top: 120px; padding-bottom: 80px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(0,194,168,0.2);
+      border-radius: 100px;
+      padding: 5px 14px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: var(--radius-sm);
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      font-size: 14px;
+      border-radius: var(--radius-sm);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--muted); color: var(--text); }
+
+    /* Hero right — terminal card */
+    .terminal {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .terminal-bar {
+      display: flex; align-items: center; gap: 7px;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+    .terminal-title {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      margin-left: auto; margin-right: auto;
+    }
+    .terminal-body { padding: 20px 24px; font-family: var(--mono); font-size: 13px; line-height: 1.9; }
+    .t-comment { color: var(--muted2); }
+    .t-prompt { color: var(--muted); }
+    .t-cmd { color: var(--text); }
+    .t-key { color: var(--accent); }
+    .t-val { color: #a8d8b4; }
+    .t-str { color: #f0c080; }
+    .t-tag { color: var(--blue); }
+    .t-cursor {
+      display: inline-block; width: 8px; height: 14px;
+      background: var(--accent); vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── SECTION HEADER ── */
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 520px;
+    }
+    .section-header { margin-bottom: 3rem; }
+
+    /* ── SKILLS / TOOLS ── */
+    #skills { background: var(--bg2); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .skill-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 16px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .skill-name { font-size: 13px; font-weight: 500; color: var(--text); }
+    .skill-role { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: var(--mono); }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; gap: 24px; }
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .project-card:hover { border-color: rgba(0,194,168,0.35); transform: translateY(-3px); }
+    .project-mock {
+      position: relative;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 28px 0;
+      height: 200px;
+      overflow: hidden;
+    }
+    .project-mock-inner {
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      padding: 14px 16px;
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+    .project-body { padding: 24px 28px; }
+    .project-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .project-name { font-size: 18px; font-weight: 600; }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; color: var(--accent);
+      font-family: var(--mono);
+      border: 1px solid rgba(0,194,168,0.25);
+      border-radius: var(--radius-sm);
+      padding: 5px 11px;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .project-link:hover { background: var(--accent-dim); }
+    .project-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: var(--accent-dim2);
+      border: 1px solid rgba(0,194,168,0.18);
+      color: var(--accent);
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 1rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-text strong { color: var(--text); font-weight: 500; }
+    .about-right { display: flex; flex-direction: column; gap: 16px; }
+
+    .exp-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+    }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+    .exp-role { font-size: 14px; font-weight: 500; }
+    .exp-date { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .exp-company { font-size: 13px; color: var(--accent); margin-bottom: 8px; font-family: var(--mono); }
+    .exp-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .cert-list { display: flex; flex-direction: column; gap: 10px; }
+    .cert-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .cert-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .cert-name { font-size: 13px; font-weight: 500; }
+    .cert-inst { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .cert-year { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-left: auto; }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 56px 48px;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .contact-card h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .contact-card h2 span { color: var(--accent); }
+    .contact-card p { color: var(--muted); font-size: 15px; margin-bottom: 2rem; }
+    .contact-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px;
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      color: var(--muted);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+    .contact-link.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+      font-weight: 600;
+    }
+    .contact-link.primary:hover { opacity: 0.85; color: #000; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 5%;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-name { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+    .footer-copy { font-size: 13px; color: var(--muted2); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 13px; color: var(--muted2); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 48px; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 1rem 0 2rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-grid, .about-grid { grid-template-columns: 1fr; }
+      .terminal { display: none; }
+      nav .nav-links { display: none; }
+      .contact-card { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">daniel@soc ~ $</span>
+  <div class="nav-links">
+    <a href="#home">Inicio</a>
+    <a href="#skills">Habilidades</a>
+    <a href="#work">Proyectos</a>
+    <a href="#about">Sobre mí</a>
+    <a href="#contact">Contacto</a>
+  </div>
+  <a href="mailto:danielbarriotenorio@gmail.com" class="nav-cta">Contactar</a>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag">Disponible para trabajar</div>
+        <h1 class="hero-title">
+          Analista de<br />
+          <span>Ciberseguridad</span><br />
+          &amp; SOC Analyst
+        </h1>
+        <p class="hero-desc">
+          Especializado en detección de amenazas, análisis de logs y respuesta a incidentes.
+          Experiencia con SIEM, Sysmon y marcos como MITRE ATT&CK para proteger
+          infraestructuras y reducir el tiempo de respuesta.
+        </p>
+        <div class="hero-btns">
+          <a href="#work" class="btn-primary">Ver proyectos →</a>
+          <a href="mailto:danielbarriotenorio@gmail.com" class="btn-secondary">Contactar</a>
+        </div>
+      </div>
+
+      <!-- Terminal card -->
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="terminal-title">analyst@soc-lab:~</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-comment"># Perfil de seguridad</span></div>
+          <div><span class="t-prompt">$ </span><span class="t-cmd">whoami</span></div>
+          <div><span class="t-key">name</span><span class="t-prompt">: </span><span class="t-val">Daniel Barrio Domínguez</span></div>
+          <div><span class="t-key">role</span><span class="t-prompt">: </span><span class="t-val">SOC Analyst · Tier 1/2</span></div>
+          <div><span class="t-key">location</span><span class="t-prompt">: </span><span class="t-val">Sevilla, España</span></div>
+          <br />
+          <div><span class="t-prompt">$ </span><span class="t-cmd">cat skills.json</span></div>
+          <div><span class="t-tag">SIEM</span><span class="t-prompt">: </span><span class="t-str">["ELK Stack", "Wazuh"]</span></div>
+          <div><span class="t-tag">Network</span><span class="t-prompt">: </span><span class="t-str">["Wireshark", "Nmap"]</span></div>
+          <div><span class="t-tag">Framework</span><span class="t-prompt">: </span><span class="t-str">["MITRE ATT&CK"]</span></div>
+          <div><span class="t-tag">Cloud</span><span class="t-prompt">: </span><span class="t-str">["AWS", "Docker", "K8s"]</span></div>
+          <br />
+          <div><span class="t-prompt">$ </span><span class="t-cmd">cat status.txt</span></div>
+          <div><span class="t-key">status</span><span class="t-prompt">: </span><span class="t-val" style="color: #27c93f;">● DISPONIBLE</span></div>
+          <div><span class="t-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// habilidades</div>
+      <h2 class="section-title">Stack de seguridad</h2>
+      <div class="divider"></div>
+      <p class="section-sub">Herramientas y tecnologías con las que trabajo a diario en entornos de detección, análisis y respuesta.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-icon">🔍</span>
+        <div class="skill-name">Wireshark</div>
+        <div class="skill-role">Network analysis</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🛡️</span>
+        <div class="skill-name">MITRE ATT&CK</div>
+        <div class="skill-role">Threat framework</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📊</span>
+        <div class="skill-name">ELK Stack</div>
+        <div class="skill-role">SIEM / Log analysis</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🔎</span>
+        <div class="skill-name">Wazuh</div>
+        <div class="skill-role">EDR / SIEM</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🖥️</span>
+        <div class="skill-name">Sysmon</div>
+        <div class="skill-role">Event monitoring</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🗺️</span>
+        <div class="skill-name">Nmap · Nessus</div>
+        <div class="skill-role">Recon / Scanning</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🐋</span>
+        <div class="skill-name">Docker · K8s</div>
+        <div class="skill-role">Containers</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">☁️</span>
+        <div class="skill-name">AWS / Oracle</div>
+        <div class="skill-role">Cloud</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🔥</span>
+        <div class="skill-name">pfSense · Iptables</div>
+        <div class="skill-role">Firewall</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🪟</span>
+        <div class="skill-name">Active Directory</div>
+        <div class="skill-role">IAM / Windows</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🐛</span>
+        <div class="skill-name">Burp Suite</div>
+        <div class="skill-role">Web security</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🔐</span>
+        <div class="skill-name">OWASP</div>
+        <div class="skill-role">Methodology</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="work">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// proyectos</div>
+      <h2 class="section-title">Proyectos destacados</h2>
+      <div class="divider"></div>
+      <p class="section-sub">Proyectos propios orientados a la detección de amenazas, hardening y seguridad de infraestructuras.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- StellaMontis -->
+      <div class="project-card">
+        <div class="project-mock">
+          <div class="project-mock-inner">
+            <div><span class="t-comment">[StellaMontis] Threat Detection Engine</span></div>
+            <div><span class="t-key" style="color:#00c2a8;">ALERT</span> <span style="color:#888;">T1059.001</span> <span style="color:#f0c080;">PowerShell Execution</span></div>
+            <div><span class="t-key" style="color:#ff4d4d;">HIGH  </span> <span style="color:#888;">T1003.001</span> <span style="color:#f0c080;">LSASS Memory Dump</span></div>
+            <div><span class="t-key" style="color:#f5c542;">MED   </span> <span style="color:#888;">T1047    </span> <span style="color:#f0c080;">WMI Execution</span></div>
+            <div><span style="color:#555;">──────────────────────────────────</span></div>
+            <div><span style="color:#888;">Events correlated: </span><span style="color:#a8d8b4;">2,847</span> <span style="color:#888;">│ Alerts: </span><span style="color:#ff4d4d;">3</span></div>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-header">
+            <h3 class="project-name">StellaMontis</h3>
+            <a href="https://github.com/Danurrio/TFM-StellaMontis" target="_blank" class="project-link">
+              GitHub ↗
+            </a>
+          </div>
+          <p class="project-desc">
+            Sistema de detección de comportamientos maliciosos en tiempo real. Captura y correlaciona eventos del sistema mediante Sysmon, clasificándolos según su nivel de riesgo e impacto usando metodología MITRE ATT&CK. Funciona como un mini-SIEM/sandbox orientado a detección de amenazas en endpoints.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Sysmon</span>
+            <span class="tag">MITRE ATT&CK</span>
+            <span class="tag">SIEM</span>
+            <span class="tag">Threat Detection</span>
+            <span class="tag">Endpoint</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- OpenDrive -->
+      <div class="project-card">
+        <div class="project-mock">
+          <div class="project-mock-inner">
+            <div><span class="t-comment">[OpenDrive] Kubernetes Security Hardening</span></div>
+            <div><span style="color:#5b8def;">✔</span> <span style="color:#888;">RBAC policies</span>        <span style="color:#a8d8b4;">enforced</span></div>
+            <div><span style="color:#5b8def;">✔</span> <span style="color:#888;">Network segmentation</span>  <span style="color:#a8d8b4;">active</span></div>
+            <div><span style="color:#5b8def;">✔</span> <span style="color:#888;">Pod security policies</span> <span style="color:#a8d8b4;">applied</span></div>
+            <div><span style="color:#5b8def;">✔</span> <span style="color:#888;">Access control</span>        <span style="color:#a8d8b4;">least-privilege</span></div>
+            <div><span style="color:#555;">──────────────────────────────────</span></div>
+            <div><span style="color:#888;">Cluster: </span><span style="color:#a8d8b4;">OpenShift</span> <span style="color:#888;">│ Status: </span><span style="color:#27c93f;">SECURED</span></div>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-header">
+            <h3 class="project-name">OpenDrive</h3>
+            <a href="https://github.com/Danurrio/TFM-OpenDrive" target="_blank" class="project-link">
+              GitHub ↗
+            </a>
+          </div>
+          <p class="project-desc">
+            Sistema de gestión de archivos en la nube local vía web con foco en hardening de Kubernetes (OpenShift). Implementa RBAC, segmentación de red, políticas de seguridad de pods y control de accesos con principio de mínimo privilegio.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Kubernetes</span>
+            <span class="tag">OpenShift</span>
+            <span class="tag">RBAC</span>
+            <span class="tag">Hardening</span>
+            <span class="tag">MinIO</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top: 2.5rem;">
+      <a href="https://github.com/Danurrio" target="_blank" class="btn-secondary">
+        Ver todos los proyectos en GitHub →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// sobre mí</div>
+      <h2 class="section-title">Quién soy</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Soy <strong>Daniel Barrio Domínguez</strong>, Técnico Superior en Administración de Sistemas Informáticos
+          con especialización en Ciberseguridad. Estoy basado en <strong>Sevilla</strong> y busco incorporarme
+          a un equipo SOC donde contribuir activamente a la detección y respuesta ante amenazas.
+        </p>
+        <p>
+          Mi experiencia práctica incluye <strong>monitorización de eventos de seguridad</strong>, análisis de logs,
+          detección de comportamientos anómalos con Sysmon y ELK Stack, y hardening de infraestructuras
+          con Kubernetes y OpenShift.
+        </p>
+        <p>
+          Trabajo con el marco <strong>MITRE ATT&CK</strong> para clasificar y correlacionar amenazas,
+          y tengo experiencia en respuesta a incidentes y bastionado de sistemas. Mi objetivo es
+          reducir el tiempo de detección y respuesta (MTTD/MTTR) protegiendo activos críticos.
+        </p>
+        <div style="margin-top: 1.5rem;">
+          <a href="mailto:danielbarriotenorio@gmail.com" class="btn-primary" style="display:inline-flex;">
+            Contactar →
+          </a>
+        </div>
+      </div>
+
+      <div class="about-right">
+        <!-- Experiencia -->
+        <div class="exp-card">
+          <div class="exp-header">
+            <div class="exp-role">Soporte Técnico</div>
+            <div class="exp-date">Mar – Jun 2025</div>
+          </div>
+          <div class="exp-company">Azur Global / Beateam · Sevilla</div>
+          <div class="exp-desc">
+            Resolución de incidencias de red y software. Identificación y escalado de incidencias
+            con potencial impacto en seguridad: accesos no autorizados, fallos de autenticación
+            y anomalías en red.
+          </div>
+        </div>
+
+        <!-- Educación -->
+        <div style="font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 0.5rem; margin-bottom: 0.5rem; letter-spacing: 0.06em;">
+          // formación
+        </div>
+        <div class="cert-list">
+          <div class="cert-item">
+            <div class="cert-dot"></div>
+            <div>
+              <div class="cert-name">Especialización en Ciberseguridad TI</div>
+              <div class="cert-inst">Campus Cámara de Comercio de Sevilla</div>
+            </div>
+            <div class="cert-year">2025–2026</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-dot" style="background: var(--blue);"></div>
+            <div>
+              <div class="cert-name">CFGS Administración de Sistemas Informáticos</div>
+              <div class="cert-inst">IES Antonio Machado · Sevilla</div>
+            </div>
+            <div class="cert-year">2023–2025</div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-dot" style="background: var(--muted2);"></div>
+            <div>
+              <div class="cert-name">CFGM Sistemas Microinformáticos y Redes</div>
+              <div class="cert-inst">Colegio Ntra. Sra. de las Mercedes</div>
+            </div>
+            <div class="cert-year">2021–2023</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-card">
+      <h2>¿Hablamos? <span>Estoy disponible.</span></h2>
+      <p>
+        Busco incorporarme a un equipo SOC donde aplicar mis conocimientos en detección
+        de amenazas y respuesta a incidentes. No dudes en contactar.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:danielbarriotenorio@gmail.com" class="contact-link primary">
+          ✉ danielbarriotenorio@gmail.com
+        </a>
+        <a href="https://github.com/Danurrio" target="_blank" class="contact-link">
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/daniel-barrio" target="_blank" class="contact-link">
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+    <span class="footer-name">Daniel Barrio Domínguez</span>
+    <span class="footer-copy">© 2026 · Sevilla, España</span>
+    <div class="footer-links">
+      <a href="https://github.com/Danurrio" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/daniel-barrio" target="_blank">LinkedIn</a>
+      <a href="mailto:danielbarriotenorio@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
